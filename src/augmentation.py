@@ -1,10 +1,9 @@
 import numpy as np
-from scipy.ndimage.interpolation import zoom
+from scipy.ndimage import rotate, zoom
 from scipy.spatial.transform import Rotation
-from scipy.ndimage import rotate
 
 
-def resize_nd_array(image, new_size: list[int, int, int]):
+def resize_nd_array(image, new_size: list[int]):
     "Resize 3d array of images stack"
     real_resize_factor = np.array(new_size) / np.array(list(image.shape))
     image = zoom(image, real_resize_factor)
@@ -22,7 +21,7 @@ def rotate_nd_array(image, rot_angle: float, rot_axis: list[int]):
     output = np.swapaxes(output, axis1=0, axis2=rot_axis)    
     return output
 
-def rotate_landmarks(landmarks, angle: float, rot_axis: int, max_size:list(int, int, int)):
+def rotate_landmarks(landmarks, angle: float, rot_axis: int, max_size: list[int]):
     """Rotate landmarks around center.
     half of max size will be assigned as center.
 
@@ -158,7 +157,7 @@ def random_padding(image,
 
     return new_image, new_landmarks
 
-def random_padding_with_landmark(image, landmarks, output_size: list[int, int, int]=[-1, -1, -1]):
+def random_padding_with_landmark(image, landmarks, output_size: list[int] = [-1, -1, -1]):
     paddy = np.random.randint(0, 25)
     paddx = np.random.randint(0, 25)
     paddz = np.random.randint(0, 25)
